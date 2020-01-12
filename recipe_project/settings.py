@@ -26,10 +26,7 @@ ENVIRONMENT = os.environ.get('ENVIRONMENT', default='production')
 SECRET_KEY = os.environ.get('RECIPE_APP_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if ENVIRONMENT == 'production':
-    DEBUG = False
-elif ENVIRONMENT == 'development':
-    DEBUG = True
+DEBUG = os.environ.get('DEBUG', False)
 
 ALLOWED_HOSTS = [
     'hymanfamilyrecipes.com',
