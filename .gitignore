@@ -1,0 +1,6 @@
+__pycache__/
+recipe_env/
+.vscode/
+venv/
+staticfiles/
+media/

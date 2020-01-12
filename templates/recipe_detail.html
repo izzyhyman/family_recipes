@@ -1,0 +1,60 @@
+{% extends "_base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block title%}Recipe: {{ recipe.title }}{% endblock title%}
+
+{% block content %}
+
+<div class="container center">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+        <p class="mt-2"><a href="{% url 'recipe_list' %}">Back to All Recipes</a></p>
+        <h2 class="mt-2">{{recipe.title}}</h2>
+        <p class="text-muted">Submitted by: {{recipe.author}} on {{recipe.date|date:"M. d, Y"}}</p>
+
+            <p><img src="{{ recipe.image.url }}" alt="image of {{ recipe.title }}" class="img-fluid"></p>
+            <h3>Ingredients:</h3>
+            <p>{{recipe.ingredients|linebreaks}}</p>
+            <h3 class="pt-4">Instructions:</h3>
+            <p>{{recipe.instructions|linebreaks}}</p>
+
+            <div>
+                {% if user == recipe.author %}
+                <p class="pt-3"><a href="{% url 'recipe_edit' recipe.pk %}">+ Edit Recipe</a> | 
+                <a href="{% url 'recipe_delete' recipe.pk %}">+ Delete Recipe</a></p>
+                {% endif %}
+            </div>
+
+            {% if comments %}
+                {% with comments.count as total_comments %}
+                    <h3>{{ total_comments }} Comment{{ total_comments|pluralize }}</h3>
+                {% endwith %}
+
+                {% for comment in comments %}
+
+                <p class="pt-2 text-muted"><span class="font-weight-bold">{{ comment.author }}</span> wrote:</p>
+                <p>
+                    {{ comment.text|linebreaks }}
+                </p>
+
+                {% endfor %}
+            {% else %}
+                <p class="pt-2">No comments on this recipe yet.</p>
+            {% endif %}
+
+            {% if user.is_authenticated %}
+                <form method="post">
+                    {% csrf_token %}
+                    {{ comment_form|crispy }}
+                    <input class="btn btn-success" type="submit" value="Submit Comment">
+                </form>
+            {% else %}
+                <p>Please <a href="{% url 'login' %}?next={{ request.path }}">log in</a> if you would like to add your own comment.</p>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

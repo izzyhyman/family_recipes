@@ -1,0 +1,22 @@
+{% extends "_base.html" %}
+
+{% block title %}About{% endblock title%}
+
+{% block content %}
+
+<div class="container center">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <h1 class="mt-5">About the Hyman Family Recipe Site</h1>
+            <p>Welcome to our family recipe collection!</p>
+            <p>This web app is a place for the Hyman family to post our favorite recipes, so when the kids go off to college, they can still have the comfort of home cooking (though they'll have to make the food themselves!).</p>
+            <p>If you want to set up add a recipe yourself, you can do that, but you'll need to <a href="{% url 'signup' %}">set up an account</a>.</p>
+        </div>
+        
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block footer %}
+{% endblock footer %}
