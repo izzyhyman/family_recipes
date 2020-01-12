@@ -53,6 +53,7 @@ INSTALLED_APPS = [
 
     # third party apps
     'crispy_forms',
+    'storages',
 
     # my apps
     'recipes.apps.RecipesConfig',
@@ -146,8 +147,8 @@ USE_TZ = True
 
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"),]
+
+
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
@@ -205,3 +206,27 @@ DATABASES['default'].update(db_from_env)
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
+
+# AWS INFO
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"),]
+
+AWS_ACCESS_KEY_ID = os.environ.get("RECIPES_AWS_ACCESS_KEY")
+AWS_SECRET_ACCESS_KEY = os.environ.get("RECIPES_AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = "hyman-recipes-static"
+AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
+
+AWS_S3_OBJECT_PARAMETERS = {
+    "CacheControl": 'max-age=86400',
+}
+
+AWS_LOCATION = "static"
+AWS_DEFAULT_ACL = "public-read"
+
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/'
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+AWS_LOCATION = "media"
+AWS_S3_FILE_OVERWRITE = False
