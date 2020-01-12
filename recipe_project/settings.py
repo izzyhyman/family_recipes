@@ -31,7 +31,13 @@ if ENVIRONMENT == 'production':
 elif ENVIRONMENT == 'development':
     DEBUG = True
 
-ALLOWED_HOSTS = ['.herokuapp.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = [
+    'hymanfamilyrecipes.com',
+    'www.hymanfamilyrecipes.com',
+    '.herokuapp.com',
+    'localhost',
+    '127.0.0.1',
+]
 
 
 # Application definition
